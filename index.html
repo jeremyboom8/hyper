@@ -141,8 +141,30 @@
   </div>
 </nav>
 
-<!-- SLIDE #1 Rumi -->
-<section id="intro" class="slide">
+<!-- SLIDE #1 Rumi - Video -->
+<section class="slide fade-9 video pauseOffScreen">
+  <div class="content">
+    <div class="container">
+      <div class="wrap">
+
+        <div class="fix-10-12">
+          <div class="quote-80">“</div>
+          <div class="fix-8-12 ae-1 fromBottom"><p class="hero">“You are not a drop in the</br>ocean. You are the entire</br>ocean in a drop.”</p></div>
+          <div class="ae-2 fromBottom"><p class="small opaque"><strong>Rumi</strong><br></p></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="background">
+    <video poster="http://hyper.weadventure.org/assets/img/waves.jpg" loop muted webkit-playsinline>
+    <source src="http://hyper.weadventure.org/assets/img/waves.mp4" type="video/mp4"/>
+    </video>
+  </div>
+</section>
+
+<!-- SLIDE #1 Rumi - D3.js -->
+<!-- <section id="intro" class="slide">
   <div class="content disable-pointer-events">
     <div class="container">
       <div class="wrap">
@@ -151,17 +173,16 @@
           <div class="quote-80">“</div>
           <div class="fix-8-12 ae-1 fromBottom"><p class="hero">“You are not a drop in the</br>ocean. You are the entire</br>ocean in a drop.”</p></div>
           <div class="ae-2 fromBottom"><p class="small opaque"><strong>Rumi</strong><br></p></div>
-
         </div>
 
       </div>
     </div>
   </div>
   <div id="cover"></div>
-</section>
+</section> -->
 
 <!-- D3 Custom Js -->
-<script>
+<!-- <script>
   $(window).on("resize", function () {
     resizeCanvas();
   });
@@ -259,7 +280,7 @@
     canvas.attr("width", width).attr("height", height);
     force.tick();
   }
-</script>
+</script> -->
 
 <!-- SLIDE #2 Jeremy Intro -->
 <section class="slide fade-8 kenBurns">
@@ -681,6 +702,52 @@
   </div>
   <div class="background" style="background-image:url(assets/img/sea.jpg)"></div>
 </section>
+
+<script>
+  $(function(){
+
+    if (window.isScroll) {
+      $('html,body').on('mousewheel', function(){
+        checkBGVideo();
+      });
+    } else {
+      $(window).on('slideChange',function(event, number, element){
+        //stop all videos
+        $('video').each(function(){ $(this)[0].pause();});
+
+        //start one
+        if ($(element).hasClass('video')){
+          var $el = $(element).find('.background video').eq(0);
+          $el[0].play();
+        }
+      });
+    }
+
+    function checkBGVideo(){
+      $('.slide.video').each(function(){
+        var $el = $(this).find('.background video').eq(0);
+
+        if (isElementInView($(this))) {
+          $el[0].play();
+        } else {
+          $el[0].pause();
+        }
+      });
+    }
+
+
+    function isElementInView(element) {
+      var scrollTop = $(window).scrollTop(),
+          $element = $(element),
+          pageBottom = scrollTop + $(window).height(),
+          elementTop = $element.offset().top,
+          elementBottom = elementTop + $element.height();
+
+      return (scrollTop > elementTop - $(window).height()) && (scrollTop < elementTop + $element.height());
+    };
+  });
+</script>
+
 
 <style>
   .page-loaded .dialog[data-dialog-id="dialog"] {
